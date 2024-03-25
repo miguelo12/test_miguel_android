@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    kotlin("kapt")
+    alias(libs.plugins.daggerHiltAndroid)
 }
 
 android {
@@ -50,8 +52,12 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
+    //Project
+    api(project(":data"))
+
+    //Androidx Kotlin
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
@@ -65,4 +71,16 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    //Coil
+    implementation(libs.coil.compose)
+
+    //hilt & Dagger
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+}
+
+//Allow references to generated code
+kapt {
+    correctErrorTypes = true
 }
